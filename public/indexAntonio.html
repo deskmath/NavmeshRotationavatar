@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>Seleccion</title>
+    <meta name="description" content="datos – A-Frame" />
+    <link rel="stylesheet" href="css/estiloInicio.css" />
+    <style>
+      
+      .image-selector {
+        margin-center: auto;
+        margin-top: 40px;
+        width: 200px;
+        height: 200px;
+      }
+      .image-caseta {
+        margin-center: auto;
+        margin-top: 110px;
+        width: 200px;
+        height: 200px;
+      }
+      .titulosuperior {
+        margin-center: auto;
+        margin-top: 20px;
+   
+      }
+      .espacio {
+        display: block;
+        margin-left: 120px;
+        margin-right: auto;
+        margin-center: auto;
+        width: 300px;
+        height: 63px;
+      }
+      .gitana {
+        display: block;
+        margin-left: auto;
+        margin-right: auto;
+        margin-top: 30px;
+        width: 176px;
+        height: 63px;
+        border: 1px solid #73AD21;
+        padding: 2px;
+      }
+      .textNombre {
+        display: block;
+        margin-left: auto;
+        margin-right: auto;
+        margin-top: 30px;
+        width: 350px;
+        height: 35px;
+        border: 1px solid #73AD21;
+        padding: 2px;
+      }
+      .texEmail {      
+        margin-top: 10px;
+        width: 350px;
+        height: 35px;
+        border: 1px solid #73AD21;
+        padding: 2px;
+      }
+      .gitano {
+        display: block;
+        margin-left: auto;
+        margin-right: auto;
+        margin-top: 30px;
+        width: 176px;
+        height: 63px;
+        border: 1px solid #73AD21;
+        padding: 2px;
+      }
+     
+    </style>
+    <script>
+      function GuardaGitano() {
+        var x = document.getElementById("nombreGitano").value;
+        console.log("nombre " + x);
+        localStorage.setItem("nombre", x);
+        localStorage.setItem("sexo", "h");
+        var input = document.getElementById("gitanoTexture").value;
+        window.location.href = "https://feria-alfa.glitch.me/feria.html";
+      }
+    </script>
+    <script>
+      function GuardaGitana() {
+        var x = document.getElementById("nombreGitana").value;
+        console.log("nombre " + x);
+        localStorage.setItem("nombre", x);
+        localStorage.setItem("sexo", "m");
+        var input = document.getElementById("gitanaTexture").value;
+        window.location.href = "https://feria-alfa.glitch.me/feria.html";
+      }
+    </script>
+  </head>
+  <body>
+    <img id="traje" crossorigin="anonymous" />
+    <div class="conjunto">
+      <div class="flex-container">
+        <div class="left">
+          <img
+            class="image-selector"
+            src="https://cdn.glitch.com/b2d63549-ab7e-469e-9624-68af70d3edf9%2FTrajegitana2.png?v=1586971353745"
+          />
+        </div>
+
+        <div class="right">
+          <h1 class="titulosuperior">Escribe tu nombre</h1>
+
+          <div class="content">
+            <input
+              class="textNombre"
+              id="nombreGitana"
+              type="text"
+              placeholder="name"
+            />
+
+            <input
+              class="gitana"
+              id="gitanaTexture"
+              title="Gitana"
+              src="https://cdn.glitch.com/b2d63549-ab7e-469e-9624-68af70d3edf9%2Fentrar.jpg?v=1587041256296"
+              type="image"
+              onclick="GuardaGitana();"
+              action="feria.html"
+            />
+            <p class="espacio">No escribas caracteres especiales</p>
+          </div>
+        </div>
+      </div>
+
+      <div>
+        <h1></h1>
+      </div>
+
+      <div class="flex-container">
+        <div class="left">
+          <img
+            class="image-selector"
+            src="https://cdn.glitch.com/b2d63549-ab7e-469e-9624-68af70d3edf9%2Fnuevotraje.png?v=1586787754327"
+          />
+        </div>
+
+        <div class="right">
+          <h1 class="titulosuperior">Escribe tu nombre</h1>
+          <div class="content">
+            <input
+              class="textNombre"
+              id="nombreGitano"
+              type="text"
+              placeholder="name"
+            />
+
+            <input
+              class="gitano"
+              id="gitanoTexture"
+              title="Gitano"
+              src="https://cdn.glitch.com/b2d63549-ab7e-469e-9624-68af70d3edf9%2Fentrar.jpg?v=1587041256296"
+              type="image"
+              onclick="GuardaGitano();"
+              action="feria.html"
+            />
+            <p class="espacio">No escribas caracteres especiales</p>
+          </div>
+        </div>
+      </div>
+
+      <div>
+        <h1></h1>
+      </div>
+
+      <div class="flex-container">
+        <div class="left">
+          <img
+            class="image-caseta"
+            src="https://cdn.glitch.com/b2d63549-ab7e-469e-9624-68af70d3edf9%2FcasetaImage.jpg?v=1587049773528"
+          />
+        </div>
+
+        <div class="right">
+          <h1 class="titulosuperior">¡¡ Reserva tu caseta ¡¡</h1>
+          <div class="content">
+            <form
+              action="mailto:deskmath@gmail.com"
+              method="post"
+              enctype="text/plain"
+            >
+              Name:<br />
+              <input class="texEmail" type="text" name="name" /><br />
+              E-mail:<br />
+              <input class="texEmail" type="text" name="mail" /><br />
+              Comment:<br />
+              <input class="texEmail" type="text" name="comment" size="50" /><br /><br />
+              <input class="texEmail" type="submit" value="Send" />
+              <input class="texEmail" type="reset" value="Reset" />
+            </form>
+            <p class="espacio">No escribas caracteres especiales</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

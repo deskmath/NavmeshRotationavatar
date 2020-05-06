@@ -1,0 +1,149 @@
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>FeriaVirtual2020</title>
+    <meta name="FeriaSevilla2020" content="FeriaVirtual-Aframe" />
+
+    <!-- A-Frame --> 
+    <script src="https://aframe.io/releases/1.0.3/aframe.min.js"></script>
+    
+    <!-- Multiusuario --> 
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/1.4.5/socket.io.min.js"></script>
+    <script src="https://unpkg.com/networked-aframe@^0.4.0/dist/networked-aframe.min.js"></script>
+    <script src="easyrtc/easyrtc.js"></script>
+    <script src="https://unpkg.com/aframe-randomizer-components@^3.0.1/dist/aframe-randomizer-components.min.js"></script>
+    <script src="/js/spawn-in-circle.component.js"></script>
+    
+    <!-- Temporizador --> 
+    <script src="/js/timeEight.js"></script>
+    
+    
+    <!-- Movimiento - Fisicas --> 
+    <script src="https://cdn.jsdelivr.net/gh/donmccurdy/aframe-extras@v6.1.0/dist/aframe-extras.min.js"></script>
+    <script src="https://recast-api.donmccurdy.com/aframe-inspector-plugin-recast.js"></script>
+  
+    
+    <script>
+    
+      NAF.schemas.add({
+        template: '#avatar-template',
+        components: [
+          'position',
+          'rotation',
+          
+          {
+            selector: '.head',
+            component: 'gltf-model',
+            
+          },
+          {
+            selector: '.nametag',
+            component: 'text',
+            property: 'value'
+          },
+          {
+            selector: '.nametag2',
+            component: 'text',
+            property: 'value'
+          }
+        ]
+      });
+      function onSceneLoad() {      
+        var player = document.getElementById('player');
+        var myNametag = player.querySelector('.nametag'); 
+        var myNametag2 = player.querySelector('.nametag2');
+        var name = localStorage.getItem("nombre");
+        console.log("nombre "+ name)
+        myNametag.setAttribute("text", "value", name);
+        myNametag2.setAttribute("text", "value", name);
+        var model = player.querySelector('.head');        
+         if (localStorage.getItem("sexo") === "m") 
+        {
+        model.setAttribute("gltf-model", "https://cdn.glitch.com/35e16532-ca33-4e76-af0a-9b9b91ab196f%2Favatararfemale.glb?v=1587334424841");
+        model.setAttribute('position', {x: 0, y: 0.3, z: 0});
+        }
+
+        document.querySelector('a-scene').components['networked-scene'].connect();
+       // RelojInit();
+      }
+
+    </script>
+  </head>
+  
+  
+  <body>  
+    
+    <a-scene
+      stats
+      inspector-plugin-recast
+      networked-scene="
+      adapter: easyrtc;
+      audio: true;
+      room: feria;
+      debug: true;
+      connectOnLoad: false;
+    "
+    >
+   
+    <a-assets>
+      
+      <img id="sky"                  src="https://cdn.glitch.com/535aaf23-5a93-40e2-8298-415b78cb86dd%2Fsky8.jpg?v=1587488904541" crossorigin="anonymous"/>
+      <img id="arbol"                src="https://cdn.glitch.com/b2d63549-ab7e-469e-9624-68af70d3edf9%2Farbolferia.png?v=1586883005393"/>
+       <a-asset-item
+          id="avatarmale"
+          src="https://cdn.glitch.com/35e16532-ca33-4e76-af0a-9b9b91ab196f%2Favatararmale.glb?v=1587331364011"
+        ></a-asset-item>
+      <a-asset-item
+          id="nav-suelo"
+          src="https://cdn.glitch.com/a6825f96-0f20-4812-aebe-af8a9368a80a%2Fnavmesh.gltf?v=1588186265144"
+        ></a-asset-item>
+
+      <a-asset-item id="casetainterior" 
+          src="https://cdn.glitch.com/a6825f96-0f20-4812-aebe-af8a9368a80a%2F1819f49a-ed7d-4144-b3d6-c82c23f3eb0e_estructura-gltf.gltf?v=1588179710660"></a-asset-item>
+ 
+       <script id="avatar-template" type="text/html">
+
+          <a-entity
+          class="head"
+          gltf-model="#avatarmale"          
+          scale="3 3 3"
+          ></a-entity>
+          
+          <a-entity class="nametag" text="value: Hello World; align:center;" position="0 1.2 0" rotation="0 0 0" scale="8 8 8"></a-entity>
+          <a-entity class="nametag2" text="value: Feriante; align:center;" position="0 1.2 0" rotation="0 180 0" scale="8 8 8"></a-entity>
+      </script> 
+
+      
+      </a-assets>
+
+      <a-entity id="rig" movement-controls="constrainToNavMesh: true">
+        
+        <a-entity id="player" 
+                  networked="template:#avatar-template;attachTemplateToLocal:false;" 
+                  spawn-in-circle="radius:3;" 
+                  position="0 1 0"
+                  camera
+                  cursor = "cursor: nav-debug-pointer" 
+                  raycaster="objects: [nav-mesh];"
+                  look-controls
+                  >          
+      </a-entity>
+      </a-entity>
+          
+          
+        <a-entity gltf-model="#casetainterior"></a-entity>
+        <a-entity gltf-model="#nav-suelo" nav-mesh></a-entity>
+    
+          
+    </a-scene>
+
+    <!-- Defining the URL inline. Not recommended but more comfortable for web developers. -->
+    <script>
+     
+      document.querySelector("a-scene").addEventListener("loaded", onSceneLoad);
+    </script>   
+          
+          
+    
+  </body>
+</html>

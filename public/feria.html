@@ -1,0 +1,204 @@
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>FeriaVirtual2020</title>
+    <meta name="FeriaSevilla2020" content="FeriaVirtual-Aframe" />
+
+    <!-- A-Frame --> 
+    <script src="https://aframe.io/releases/1.0.3/aframe.min.js"></script>
+    
+    <!-- Multiusuario --> 
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/1.4.5/socket.io.min.js"></script>
+    <script src="https://unpkg.com/networked-aframe@^0.4.0/dist/networked-aframe.min.js"></script>
+    <script src="easyrtc/easyrtc.js"></script>
+    <script src="https://unpkg.com/aframe-randomizer-components@^3.0.1/dist/aframe-randomizer-components.min.js"></script>
+    <script src="/js/spawn-in-circle.component.js"></script>
+    <script src="/js/cargaNav.js"></script>
+  
+    
+    <!-- Temporizador --> 
+    <script src="/js/timeEight.js"></script>
+    
+    
+    <!-- Movimiento - Fisicas --> 
+    <script src="/dist/aframe-extras.min.js"></script>
+   
+    <script src="https://recast-api.donmccurdy.com/aframe-inspector-plugin-recast.js"></script>
+
+    
+    <script>
+    
+          var avatarSchema = {
+        template: '#avatar-template',
+        components: [
+          'position',
+          'rotation',
+          {
+            selector: '.head',
+            component: 'material'
+          }
+        ]
+      };
+      NAF.schemas.add(avatarSchema);
+      
+      
+      
+      function onSceneLoad() {      
+       /* var player = document.getElementById('payer');
+        console.log(player);
+        var myNametag = player.querySelector('.nametag'); 
+        var myNametag2 = player.querySelector('.nametag2');
+        var name = localStorage.getItem("nombre");
+        console.log("nombre "+ name)
+        myNametag.setAttribute("text", "value", name);
+        myNametag2.setAttribute("text", "value", name);
+        var model = player.querySelector('.head');        
+         if (localStorage.getItem("sexo") === "m") 
+        {
+        model.setAttribute("gltf-model", "https://cdn.glitch.com/35e16532-ca33-4e76-af0a-9b9b91ab196f%2Favatararfemale.glb?v=1587334424841");
+        model.setAttribute('position', {x: 0, y: 0.3, z: 0});
+        }
+*/
+        document.querySelector('a-scene').components['networked-scene'].connect();
+       // RelojInit();
+      }
+
+    </script>
+  </head>
+  
+  
+  <body>  
+    
+    <a-scene
+      stats
+      inspector-plugin-recast
+      raycaster="far: 10; objects: [link];"
+      cursor="rayOrigin: mouse"
+      networked-scene="
+      adapter: easyrtc;
+      movement-controls; 
+      audio: true;
+      room: nametag;
+      debug: true;
+      connectOnLoad: false;
+    "
+    >
+   
+    <a-assets>
+   
+      
+            <script id="avatar-template" type="text/html">
+          <a-entity class="avatar">
+            <a-sphere class="head"
+              color="#5985ff"
+              scale="0.45 0.5 0.4"
+              random-color
+            ></a-sphere>
+            <a-entity class="face"
+              position="0 0.05 0"
+            >
+              <a-sphere class="eye"
+                color="#efefef"
+                position="0.16 0.1 -0.35"
+                scale="0.12 0.12 0.12"
+              >
+                <a-sphere class="pupil"
+                  color="#000"
+                  position="0 0 -1"
+                  scale="0.2 0.2 0.2"
+                ></a-sphere>
+              </a-sphere>
+              <a-sphere class="eye"
+                color="#efefef"
+                position="-0.16 0.1 -0.35"
+                scale="0.12 0.12 0.12"
+              >
+                <a-sphere class="pupil"
+                  color="#000"
+                  position="0 0 -1"
+                  scale="0.2 0.2 0.2"
+                ></a-sphere>
+              </a-sphere>
+            </a-entity>
+          </a-entity>
+        </script>
+      
+      
+      
+      <img id="sky" src="https://cdn.glitch.com/535aaf23-5a93-40e2-8298-415b78cb86dd%2Fsky8.jpg?v=1587488904541" crossorigin="anonymous"/>
+     
+       <a-asset-item
+          id="avatarmale"
+          src="https://cdn.glitch.com/35e16532-ca33-4e76-af0a-9b9b91ab196f%2Favatararmale.glb?v=1587331364011"
+        ></a-asset-item>
+      <a-asset-item
+          id="nav-suelo"
+          src="https://cdn.glitch.com/a6825f96-0f20-4812-aebe-af8a9368a80a%2Fnavmesh.gltf?v=1588186265144"
+        ></a-asset-item>
+
+      <a-asset-item id="casetainterior" 
+          src="https://cdn.glitch.com/a6825f96-0f20-4812-aebe-af8a9368a80a%2F1819f49a-ed7d-4144-b3d6-c82c23f3eb0e_estructura-gltf.gltf?v=1588179710660"></a-asset-item>
+ 
+      <a-asset-item id="solosuelo" 
+          src="https://cdn.glitch.com/a6825f96-0f20-4812-aebe-af8a9368a80a%2Fpruebasuelo.glb?v=1588261602855"></a-asset-item>
+      
+
+      </a-assets>
+    
+        <!-- Player -->
+        <a-entity id="player" networked="template:#avatar-template;attachTemplateToLocal:false;"  >
+        <a-entity camera        
+                  look-controls="pointerLockEnabled: true"                                  
+                  position="0 1.6 0" 
+                  >
+          <a-cursor nav-pointer
+                    raycaster="objects: [nav-mesh]"></a-cursor>
+        </a-entity>
+      </a-entity>
+        <a-entity gltf-model="#"  position="0 2.5 0" ></a-entity> 
+        <a-entity gltf-model="#nav-suelo" nav-mesh visible="false"  position="0 2.6 0" ></a-entity> 
+      
+        
+        
+    
+          
+    </a-scene>
+
+    <!-- Defining the URL inline. Not recommended but more comfortable for web developers. -->
+    <script>
+     
+      AFRAME.registerComponent('nav-pointer', {
+      init: function () {
+        const el = this.el;
+
+        // On click, send the NPC to the target location.
+        el.addEventListener('click', (e) => {
+          const ctrlEl = el.sceneEl.querySelector('[nav-agent]');
+          ctrlEl.setAttribute('nav-agent', {
+            active: true,
+            destination: e.detail.intersection.point
+          });
+        });
+
+        // When hovering on the nav mesh, show a green cursor.
+        el.addEventListener('mouseenter', () => {
+          el.setAttribute('material', {color: 'green'});
+        });
+        el.addEventListener('mouseleave', () => {
+          el.setAttribute('material', {color: 'crimson'})
+        });
+
+        // Refresh the raycaster after models load.
+        el.sceneEl.addEventListener('object3dset', () => {
+          this.el.components.raycaster.refreshObjects();
+        });
+      }
+    });
+      
+      document.querySelector("a-scene").addEventListener("loaded", onSceneLoad);
+    </script>   
+          
+          
+    
+  </body>
+</html>
